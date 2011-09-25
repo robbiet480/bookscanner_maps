@@ -1,90 +1,67 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-<title>Bookscanner Map</title>
-<link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
-<style type="text/css">
-#map_canvas {
-  width:90%;
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        
+        <title>Example with Google maps, jQuery and JSON - Google maps jQuery plugin</title>
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/ui-lightness/jquery-ui.css" />	 
+        <link rel="stylesheet" href="css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+		    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+		    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.0.6/modernizr.min.js"></script>
+        <script type="text/javascript" src="js/jquery.ui.map.js"></script>
+        <script type="text/javascript" src="js/jquery.ui.map.extensions.js"></script>
+        <script type="text/javascript" src="js/jquery.quicksearch.js"></script>
+        <script type="text/javascript">
+var qs = $('input#search').quicksearch('ul#list li');
+function get_location() {
+    Modernizr.geolocation ? (navigator.geolocation.getCurrentPosition(center_map, handle_error, {
+        maximumAge: 1E3
+    }), console.log("We have location support!")) : console.error("No HTML5 Geolocation support! Unable to divine current location!")
 }
-
-#right_sidebar {
-  width:10%;
-  background-color:#fff;
+function handle_error(a) {
+    a.code == 1 && console.error("HTML5 Geolocation Error: Permission denied (code 1)");
+    a.code == 0 && console.error("HTML5 Geolocation Error: Unknown error (code 0)");
+    a.code == 2 && console.error("HTML5 Geolocation Error: Position unavailable. Network is down or positioning satellites can't be contacted! (code 2)");
+    a.code == 3 && console.error("HTML5 Geolocation Error: Timed out (code 3)");
+    window.location = "http://maps.google.com/maps?daddr=" + encodeURIComponent(my_address)
 }
-</style>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript">
-  function initialize() {
-    var myLatlng = new google.maps.LatLng(37.8445407,-122.2771073);
-    var myOptions = {
-      zoom: 4,
-      center: myLatlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    
-    var marker = new google.maps.Marker({
-        position: myLatlng, 
-        map: map,
-        title:"Ace Monster Toys"
-    }); 
-    var myLatlng1 = new google.maps.LatLng(41.9424583,-87.7029454);
-    
-    var marker = new google.maps.Marker({
-        position: myLatlng1, 
-        map: map,
-        title:"Pumping Station: One"
-    });   
-    
-    var myLatlng2 = new google.maps.LatLng(40.731895,-73.987494);
-    
-    var marker = new google.maps.Marker({
-        position: myLatlng2, 
-        map: map,
-        title:"NYCResistor"
-    });   
-    
-    var myLatlng3 = new google.maps.LatLng(37.9296126,-122.345566);
-    
-    var marker = new google.maps.Marker({
-        position: myLatlng3, 
-        map: map,
-        title:"Daniels house"
-    });   
-  
-    var myLatlng4 = new google.maps.LatLng(47.6249406,-122.3211257);
-    
-    var marker = new google.maps.Marker({
-        position: myLatlng4, 
-        map: map,
-        title:"Metrix Createspace"
-    });   
-    
-    var myLatlng5 = new google.maps.LatLng(38.952567,-77.413166);
-    
-    var marker = new google.maps.Marker({
-        position: myLatlng5, 
-        map: map,
-        title:"Reverse Space"
-    });   
-  }
-</script>
-</head>
-<body onload="initialize()">
-  <div id="map_canvas"></div>
-  <div id="right_sidebar">
-    <ol>
-    <li>Ace Monster Toys</li>
-    <li>Pumping Station: One</li>
-    <li>NYCResistor</li>
-    <li>Internet Archive Physical Archive</li>
-    <li>Metrix Createspace</li>
-    <li>Reverse Space</li>
-    </ol>
-  </div>
-</body>
+function center_map(a) {
+    console.log("Centered on user generated position");
+    $('#map_canvas').gmap('center', new google.maps.LatLng(a.coords.latitude,a.coords.longitude));
+};
+$(function() {
+    $('#map_canvas').gmap().bind('init',
+    function() {
+        $.getJSON('http://localhost/~robbiet480/bookscanner_maps/places.json',
+        function(data) {
+            $.each(data.markers,
+            function(i, m) {
+                $('#map_canvas').gmap('addMarker', {
+                    'position': new google.maps.LatLng(m.lat, m.lng),
+                    'bounds': true
+                },
+                function(map, marker) {
+                    $('ul#list').append('<li>' + m.title + '</li>');
+                    $('#map_canvas').gmap('addInfoWindow', {
+                        'position': marker.getPosition(),
+                        'content': m.title + "<br>" + m.address
+                    },
+                    function(iw) {
+                        $(marker).click(function() {
+                            iw.open(map, marker);
+                            map.panTo(marker.getPosition());
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+		</script>
+    </head>
+    <body onLoad="get_location();">
+      <div id="map_canvas" style="float:left;"></div>
+      <div id="right_side" style="float:right;"><input type="text" id="search"><ul id="list"></ul></div>
+    </body>
 </html>

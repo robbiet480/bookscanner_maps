@@ -1,0 +1,36 @@
+
+{
+    "markers":
+    [
+        {
+            "lat":41.9424583,
+            "lng":-87.7029454,
+            "title":"Ace Monster Toys",
+            "address":"6050 Lowell Avenue, #214, Oakland, CA, 94612"
+        },
+        {
+            "title":"Pumping Station: One",
+            "lat":40.731895,
+            "lng":-73.987494,
+            "address":"Chicago"
+        },
+        {
+            "title":"NYCResistor",
+             "lat":37.9296126,
+            "lng":-122.345566,
+            "address":"New York City"
+        },
+        {
+            "title":"Daniels house",
+            "lat":47.6249406,
+            "lng":-122.3211257,
+            "address":"Richmond"
+        },
+        {
+            "title":"Metrix Createspace",
+            "lat":38.952567,
+            "lng":-77.413166,
+            "address":"Seattle"
+        }
+    ]
+}
