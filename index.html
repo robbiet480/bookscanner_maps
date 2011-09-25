@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Bookscanner Map</title>
+<link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+#map_canvas {
+  width:90%;
+}
+
+#right_sidebar {
+  width:10%;
+  background-color:#fff;
+}
+</style>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+  function initialize() {
+    var myLatlng = new google.maps.LatLng(37.8445407,-122.2771073);
+    var myOptions = {
+      zoom: 4,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    
+    var marker = new google.maps.Marker({
+        position: myLatlng, 
+        map: map,
+        title:"Ace Monster Toys"
+    }); 
+    var myLatlng1 = new google.maps.LatLng(41.9424583,-87.7029454);
+    
+    var marker = new google.maps.Marker({
+        position: myLatlng1, 
+        map: map,
+        title:"Pumping Station: One"
+    });   
+    
+    var myLatlng2 = new google.maps.LatLng(40.731895,-73.987494);
+    
+    var marker = new google.maps.Marker({
+        position: myLatlng2, 
+        map: map,
+        title:"NYCResistor"
+    });   
+    
+    var myLatlng3 = new google.maps.LatLng(37.9296126,-122.345566);
+    
+    var marker = new google.maps.Marker({
+        position: myLatlng3, 
+        map: map,
+        title:"Daniels house"
+    });   
+  
+    var myLatlng4 = new google.maps.LatLng(47.6249406,-122.3211257);
+    
+    var marker = new google.maps.Marker({
+        position: myLatlng4, 
+        map: map,
+        title:"Metrix Createspace"
+    });   
+    
+    var myLatlng5 = new google.maps.LatLng(38.952567,-77.413166);
+    
+    var marker = new google.maps.Marker({
+        position: myLatlng5, 
+        map: map,
+        title:"Reverse Space"
+    });   
+  }
+</script>
+</head>
+<body onload="initialize()">
+  <div id="map_canvas"></div>
+  <div id="right_sidebar">
+    <ol>
+    <li>Ace Monster Toys</li>
+    <li>Pumping Station: One</li>
+    <li>NYCResistor</li>
+    <li>Internet Archive Physical Archive</li>
+    <li>Metrix Createspace</li>
+    <li>Reverse Space</li>
+    </ol>
+  </div>
+</body>
+</html>
